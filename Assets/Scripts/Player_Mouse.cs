@@ -22,6 +22,7 @@ public class Player_Mouse : MonoBehaviour
 	Also will need a FoodType script that holds name cookTime and particle effect system when cooking and fully cooked.
 	*/
 	Coroutine inst = null;
+	public static event Action OnKnifeHeld; //activate any cPoints on any food type on scene.
 	private IEnumerator ObjectFollowMouse(GameObject obj)
 	{
 		if (playerState == PlayerState.Holding)
@@ -85,6 +86,10 @@ public class Player_Mouse : MonoBehaviour
 	GameObject and starts the ObjectFollowMouse coroutine. Can expand the code to compare the tag to other game objects which the play may not need to move but can 
 	interact with (in that case i'd need to rename the function to better explain the method but for now this is fine).
 	*/
+	/*
+	This whole function needs redoing, and to make better use of the PlayerState machine., Might need to have this inside of a FixedUpdate also (This should be my
+	main focus to get back on track with the game, most of my game revoles around this funciton to pickup objects)
+	*/
 	public void PickUpObject()
 	{
 		//Debug.Log(holdMe);
@@ -100,6 +105,11 @@ public class Player_Mouse : MonoBehaviour
 				holdMe = hit.rigidbody.gameObject;
 				//previousLocation = holdMe.position;
 			} 
+			else if(hit.rigidbody.CompareTag("Knife"))
+			{
+				holdMe = hit.rigidbody.gameObject;
+				playerState = PlayerState.UsingKnife;
+			}
 			else if (hit.rigidbody.CompareTag("SpawnFish"))
 			{
 				GameObject spawnItem = Instantiate(FishPrefab);
@@ -115,18 +125,13 @@ public class Player_Mouse : MonoBehaviour
 				GameObject spawnItem = Instantiate(MeatPrefab);
 				holdMe = spawnItem;
 			}
-			else if(hit.rigidbody.CompareTag("Knife"))
-			{
-				holdMe = hit.rigidbody.gameObject;
-				playerState = PlayerState.UsingKnife;
-			}
 			else return;
 		}
 
 		if (!holdMe) return;
 		else if (holdMe)
 		{
-			playerState = PlayerState.Holding;
+			playerState = PlayerState.Holding;//removes playerstate using knife on line 111;
 			isHolding = true;
 			inst = StartCoroutine(ObjectFollowMouse(holdMe));
 		}

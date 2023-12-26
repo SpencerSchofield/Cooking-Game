@@ -1220,7 +1220,7 @@ BoxCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 3
   m_Size: {x: 0.4769318, y: 0.34509033, z: 0.17765604}
   m_Center: {x: 0.045832362, y: 0.006150716, z: -0.07535093}
@@ -2808,7 +2808,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3494149534066078369, guid: 510852376a14265459ed141507e17244, type: 3}
       propertyPath: m_TagString
-      value: Moveable
+      value: FoodType
       objectReference: {fileID: 0}
     - target: {fileID: 4672690352758995932, guid: 510852376a14265459ed141507e17244, type: 3}
       propertyPath: m_Name

@@ -18,14 +18,16 @@ public class Player_Mouse : MonoBehaviour
 	[SerializeField] GameObject FishPrefab;
 	[SerializeField] GameObject MeatPrefab;
 	[SerializeField] GameObject MushroomPrefab;
+	
 	/*!! Set firepit collider to be just slightly bigger then what it is so when I place an object on it it can detect it
 	Also will need a FoodType script that holds name cookTime and particle effect system when cooking and fully cooked.
 	*/
 	Coroutine inst = null;
 	public static event Action OnKnifeHeld; //activate any cPoints on any food type on scene.
+	public static event Action OnObjectHit;
 	private IEnumerator ObjectFollowMouse(GameObject obj)
 	{
-		if (playerState == PlayerState.Holding)
+		if (playerState == PlayerState.Holding || playerState == PlayerState.UsingKnife)
 		{
 			/*
 			Make a function that pushes the object im holding in front of a object its behind. 
@@ -93,7 +95,7 @@ public class Player_Mouse : MonoBehaviour
 	public void PickUpObject()
 	{
 		//Debug.Log(holdMe);
-		if (playerState == PlayerState.NotHolding && Input.GetMouseButton(0) || playerState == PlayerState.UsingKnife && Input.GetMouseButton(0))
+		if (playerState == PlayerState.NotHolding && Input.GetMouseButton(0))
 		{
 			RaycastHit hit;
 			Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -103,27 +105,32 @@ public class Player_Mouse : MonoBehaviour
 			if (hit.rigidbody.CompareTag("FoodType"))
 			{
 				holdMe = hit.rigidbody.gameObject;
+				playerState = PlayerState.Holding;
 				//previousLocation = holdMe.position;
 			} 
 			else if(hit.rigidbody.CompareTag("Knife"))
 			{
 				holdMe = hit.rigidbody.gameObject;
 				playerState = PlayerState.UsingKnife;
+				Actions.OnKnifeHeld();
 			}
 			else if (hit.rigidbody.CompareTag("SpawnFish"))
 			{
 				GameObject spawnItem = Instantiate(FishPrefab);
 				holdMe = spawnItem;
+				playerState = PlayerState.Holding;
 			} 
 			else if(hit.rigidbody.CompareTag("SpawnMushroom"))
 			{
 				GameObject spawnItem = Instantiate(MushroomPrefab);
 				holdMe = spawnItem;
+				playerState = PlayerState.Holding;
 			} 
 			else if(hit.rigidbody.CompareTag("SpawnMeat"))
 			{
 				GameObject spawnItem = Instantiate(MeatPrefab);
 				holdMe = spawnItem;
+				playerState = PlayerState.Holding;
 			}
 			else return;
 		}
@@ -131,7 +138,7 @@ public class Player_Mouse : MonoBehaviour
 		if (!holdMe) return;
 		else if (holdMe)
 		{
-			playerState = PlayerState.Holding;//removes playerstate using knife on line 111;
+			//playerState = PlayerState.Holding;//removes playerstate using knife on line 111;
 			isHolding = true;
 			inst = StartCoroutine(ObjectFollowMouse(holdMe));
 		}

@@ -52,5 +52,5 @@
         "Temp/": true
     },
     "dotnet.preferCSharpExtension": true,
-    "dotnet.defaultSolution": "Cooking Game.sln"
+    "dotnet.defaultSolution": "Cooking-Game.sln"
 }

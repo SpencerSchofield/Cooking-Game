@@ -20,9 +20,9 @@ public class FirePitHandler2 : MonoBehaviour
 	void Start()
 	{
 		List<KeyValuePair<GameObject,bool>> attachmentPoints = new List<KeyValuePair<GameObject,bool>>();
-		GameObject Hopeful = GameObject.Find("FirePit").transform.GetChild(0).gameObject;
+		//GameObject Hopeful = GameObject.Find("FirePit").transform.GetChild(0).gameObject;
 		
-		attachmentPoints.Add(new KeyValuePair<GameObject,bool>(Hopeful, true));
+		//attachmentPoints.Add(new KeyValuePair<GameObject,bool>(Hopeful, true));
 		attachmentPoints.Add(new KeyValuePair<GameObject, bool>(GameObject.Find("FirePit").transform.GetChild(1).gameObject, true));
 		attachmentPoints.Add(new KeyValuePair<GameObject, bool>(GameObject.Find("FirePit").transform.GetChild(2).gameObject, true));
 		attachmentPoints.Add(new KeyValuePair<GameObject, bool>(GameObject.Find("FirePit").transform.GetChild(3).gameObject, true));
